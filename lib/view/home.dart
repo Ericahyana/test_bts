@@ -1,17 +1,134 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:test_masuk/core/provider/task_viewModel.dart';
+import 'package:test_masuk/view/widget/list_task.dart';
 
 class Home extends StatefulWidget {
-  Home({Key key}) : super(key: key);
+  final String token;
+  Home(this.token, {Key key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  cekdata() {
+    CheckViewModel().getCek(widget.token);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-       child: Text(""),
+    return Scaffold(
+      backgroundColor: Color(0xff228B22),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: 25,
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Task",
+                        style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "Dashboard",
+                        style: GoogleFonts.openSans(
+                            textStyle: TextStyle(
+                                color: Color(0xffa29aac),
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600)),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10),
+              height: 3,
+              color: Colors.green,
+              width: MediaQuery.of(context).size.width,
+            ),
+
+            SizedBox(
+              height: 2,
+            ),
+            // GridDashboard()
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: InkWell(
+                    child: Container(
+                        height: 50,
+                        width: 80,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            color: Color(0xff006400)),
+                        child: Center(
+                          child: Text(
+                            "Add",
+                            style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                                    fontSize: 20, color: Colors.white)),
+                          ),
+                        )),
+                    onTap: () {
+                      print("ini add");
+                      setState(() {
+                        print(widget.token);
+                        cekdata();
+                        // spll= spool.text;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(
+              height: 590.0,
+              child: FutureBuilder(
+                future: CheckViewModel().getCek(widget.token),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) print(snapshot.error);
+
+                  var data = snapshot.data;
+
+                  return data != null
+                      ? ListCheck(data)
+                      : Center(
+                          child: Text("Tidak Ada Data !!",
+                              style: GoogleFonts.montserrat(
+                                fontSize: 15,
+                              )),
+                        );
+                },
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
@@ -157,7 +274,7 @@ class _HomeState extends State<Home> {
 //                 ),
 //               ],
 //             ),
-            
+
 //                SizedBox(
 //                             height: 590.0,
 //                             child:
@@ -179,8 +296,7 @@ class _HomeState extends State<Home> {
 //                     },
 //                   ),
 //               ),
-              
-            
+
 //           ],
 //         ),
 //       ),

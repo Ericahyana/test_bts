@@ -1,38 +1,32 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:test_masuk/core/model/ceklish.dart';
 import 'package:test_masuk/core/model/register.dart';
-import 'package:test_masuk/core/model/res_login.dart';
 import 'package:test_masuk/core/services/server.dart';
-import 'package:test_masuk/view/home.dart';
+// import 'package:test_masuk/view/home.dart';
 import 'dart:convert';
 
-class UserViewModel {
-  //untuk login
-  postLogin(String username, String password, BuildContext context) async {
+class CheckViewModel {
+  //untuk get checklish
+  Future<Ceklish> getCek(String token) async {
     try {
-      final bod= jsonEncode({
-        "password": password,
-        "username": username
-      });
+      
       http.Response hasil =
-          await http.post(Uri.encodeFull(Api().server + "login"),
+          await http.get(Uri.encodeFull(Api().server + "checklist"),
         headers: {
-        'Content-type': 'application/json',
-        'Accept': 'application/json'
-      }, body: bod);
+        'Content-type': '*/*',
+        'Accept': 'application/json',
+        'Authorization':'Bearer '+token
+      },);
+      print(hasil.headers);
       if (hasil.statusCode == 200) {
-        print("data login ada ");
-        // print(nis);
-        // print(password);
+        print("data data ada ");
         print(hasil.body);
-        final data = resloginFromJson(hasil.body);
-        print("----------------");
-        print(data.toJson());
-        print("----------------");
-        var token = data.data.token;
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (BuildContext context) => new Home(token),
-        ));
+        final data = ceklishFromJson(hasil.body);
+       
+        log(hasil.body);
 
         return data;
       } else {
@@ -84,3 +78,8 @@ class UserViewModel {
 }
 
 class SharedPreferences {}
+
+
+
+
+// final response = await http.get('https://jsonplaceholder.typicode.com/albums/1',headers: {HttpHeaders.authorizationHeader: "Basic your_api_token_here"},);

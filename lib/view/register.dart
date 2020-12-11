@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:test_masuk/view/home.dart';
+import 'package:test_masuk/core/provider/user_viewModel.dart';
+// import 'package:test_masuk/view/home.dart';
 
 class Registers extends StatefulWidget {
   Registers({Key key}) : super(key: key);
@@ -13,18 +14,8 @@ class _RegistersState extends State<Registers> {
   final email = TextEditingController();
   final user = TextEditingController();
   final pass = TextEditingController();
-  var username;
+  final UserViewModel regis= UserViewModel();
 
-  void registers() async {
-    
-    // if (user.text =="eri" && pass.text=="123") {
-    //   Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //     builder: (BuildContext context) => new Home(user.text),
-    //   ));
-    // }
-
-
-  }
 
   @override
   void initState() {
@@ -162,7 +153,11 @@ class _RegistersState extends State<Registers> {
             )),
         onTap: () {
         print("ini Registers");
-        registers();
+        // registers();
+        print(email.text);
+        print(user.text);
+        print(pass.text);
+          regis.regist(email.text, user.text, pass.text, context);
           // Registers.getRegisters(user.text, pass.text, context);
         },
       ),

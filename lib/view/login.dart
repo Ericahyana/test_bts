@@ -14,10 +14,10 @@ class _LoginState extends State<Login> {
   final user = TextEditingController();
   final pass = TextEditingController();
   var username;
-  UserViewModel login;
+ final UserViewModel logins = UserViewModel();
   void cekLogin() async {
     
-    login.getLogin(user.text, pass.text, context);
+    
   }
 
   @override
@@ -107,7 +107,7 @@ class _LoginState extends State<Login> {
 
     final loginButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: InkWell(
+      child: GestureDetector(
         child: Container(
             height: 40,
             width: 100,
@@ -123,7 +123,9 @@ class _LoginState extends State<Login> {
             )),
         onTap: () {
         print("ini login");
-        cekLogin();
+        print(user.text);
+        print(pass.text);
+        logins.postLogin(user.text, pass.text, context);
           // login.getLogin(user.text, pass.text, context);
         },
       ),
@@ -147,7 +149,7 @@ final regisButton = Padding(
             )),
         onTap: () {
         print("ini regis");
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
+        Navigator.of(context).push(MaterialPageRoute(
         builder: (BuildContext context) => Registers()));
           // login.getLogin(user.text, pass.text, context);
         },

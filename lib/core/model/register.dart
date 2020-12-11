@@ -1,35 +1,37 @@
 // To parse this JSON data, do
 //
-//     final Regis = RegisFromJson(jsonString);
+//     final resregis = resregisFromJson(jsonString);
 
 import 'dart:convert';
 
-Regis regisFromJson(String str) => Regis.fromJson(json.decode(str));
+Resregis resregisFromJson(String str) => Resregis.fromJson(json.decode(str));
 
-String regisToJson(Regis data) => json.encode(data.toJson());
+String resregisToJson(Resregis data) => json.encode(data.toJson());
 
-class Regis {
-    Regis({
-          this.email,
-          this.password,
-          this.username,
+class Resregis {
+    Resregis({
+        this.statusCode,
+        this.message,
+        this.errorMessage,
+        this.data,
     });
 
-  String email;
-  String password;
-  String username;
+    int statusCode;
+    String message;
+    dynamic errorMessage;
+    dynamic data;
 
-
-    factory Regis.fromJson(Map<String, dynamic> json) => Regis(
-        email: json["email"],
-        password: json["password"],
-        username: json["username"],
+    factory Resregis.fromJson(Map<String, dynamic> json) => Resregis(
+        statusCode: json["statusCode"],
+        message: json["message"],
+        errorMessage: json["errorMessage"],
+        data: json["data"],
     );
 
     Map<String, dynamic> toJson() => {
-        "email": email,
-        "password": password,
-        "username": username,
-        
+        "statusCode": statusCode,
+        "message": message,
+        "errorMessage": errorMessage,
+        "data": data,
     };
 }
