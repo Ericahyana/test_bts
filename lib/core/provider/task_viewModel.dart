@@ -44,28 +44,27 @@ class CheckViewModel {
   }
 
   //untuk detail view
-  Future<Resregis> regist(String email, String username, String password,
-      BuildContext context) async {
+   insertCheck(String name ,token)async {
     try {
       final bod= jsonEncode({
-        "email": email,
-        "password": password,
-        "username": username
+        "name": name,
+        
       });
 
       http.Response hasil = await http.post(
-        Uri.encodeFull(Api().server + "register"),
+        Uri.encodeFull(Api().server + "checklist"),
         headers: {
         'Content-type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization':'Bearer '+token
       },
         body: bod,
       );
       if (hasil.statusCode == 200) {
-        print("data regis success");
-        final data = resregisFromJson(hasil.body);
-        Navigator.pop(context);
-        return data;
+        print("data insert success");
+        // final data = resregisFromJson(hasil.body);
+        // Navigator.pop(context);
+        // return data;
       } else {
         print("error status " + hasil.statusCode.toString());
         return null;

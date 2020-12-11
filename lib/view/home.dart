@@ -12,6 +12,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final name = TextEditingController();
+  CheckViewModel cek= CheckViewModel();
   cekdata() {
     CheckViewModel().getCek(widget.token);
   }
@@ -97,7 +99,53 @@ class _HomeState extends State<Home> {
                       print("ini add");
                       setState(() {
                         print(widget.token);
-                        cekdata();
+                        // cekdata();
+
+                        AlertDialog alert = AlertDialog(
+                          title: Text("Tambah item"),
+                          content: Container( height: 50,
+                            child: Column(children: [
+                              TextField(
+                                controller: name,
+                              )
+                            ]),
+                          ),
+                          actions: <Widget>[
+                            // Text("Log: "),
+                            InkWell(
+                              splashColor: Color(0x992647DD),
+                              child: Container(
+                                  height: 30,
+                                  margin: EdgeInsets.all(10),
+                                  width: 60,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: Color(0x992647DD)),
+                                  child: Text(
+                                    "Tambah",
+                                    style: GoogleFonts.montserrat(
+                                        textStyle: TextStyle(
+                                            color: Colors.white, fontSize: 15)),
+                                  )),
+                              onTap: () {
+                                try {
+                                  cek.insertCheck(name.text,widget.token);
+
+                                } catch (e) {
+                                  print(e.message);
+                                }
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+
+                        showDialog(
+                            barrierDismissible: true,
+                            context: context,
+                            child: alert);
+
                         // spll= spool.text;
                       });
                     },
